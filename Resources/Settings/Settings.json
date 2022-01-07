@@ -1,8 +1,13 @@
 {
-  "Enabled": true,
-  "SendNotifications": true,
-  "SaveSettings": true,
-  "ReloadOnTeleport": true,
   "AliveCheck": true,
-  "TeamCheck": false
+  "ReloadOnTeleport": true,
+  "Enabled": true,
+  "TeamCheck": false,
+  "Sensitivity": 0,
+  "SendNotifications": true,
+  "WallCheck": false,
+  "LockPart": "Head",
+  "SaveSettings": true,
+  "Toggle": false,
+  "TriggerKey": "MouseButton2"
 }
