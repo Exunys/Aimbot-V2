@@ -1,0 +1,8 @@
+{
+  "Enabled": true,
+  "SendNotifications": true,
+  "SaveSettings": true,
+  "ReloadOnTeleport": true,
+  "AliveCheck": true,
+  "TeamCheck": false
+}

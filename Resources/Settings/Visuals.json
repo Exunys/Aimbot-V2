@@ -1,0 +1,43 @@
+{
+  "HeadDotSettings": {
+    "Enabled": true,
+    "Sides": 30,
+    "Transparency": 0.5,
+    "Filled": true,
+    "Color": "50, 120, 255",
+    "Thickness": 1,
+    "Size": 2
+  },
+  
+  "BoxSettings": {
+    "Enabled": true,
+    "Thickness": 1,
+    "Increase": 1,
+    "Type": 1,
+    "Filled": false,
+    "Color": "50, 120, 255",
+    "Transparency": 0.7
+  },
+  
+  "ESPSettings": {
+    "DisplayName": true,
+    "Enabled": true,
+    "Center": true,
+    "TextTransparency": 0.7,
+    "TextSize": 14,
+    "DisplayHealth": true,
+    "TextFont": 3,
+    "DisplayDistance": true,
+    "OutlineColor": "0, 0, 0",
+    "Outline": true,
+    "TextColor": "30, 100, 255"
+  },
+  
+  "TracersSettings": {
+    "Enabled": true,
+    "Thickness": 1,
+    "Type": 1,
+    "Color": "50, 120, 255",
+    "Transparency": 0.7
+  }
+}
