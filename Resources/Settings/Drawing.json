@@ -1,0 +1,11 @@
+{
+  "Enabled": true,
+  "Color": "255, 255, 255",
+  "Thickness": 1,
+  "LockedColor": "255, 70, 70",
+  "Filled": false,
+  "Amount": 90,
+  "Sides": 60,
+  "Transparency": 0.5,
+  "Visible": true
+}
