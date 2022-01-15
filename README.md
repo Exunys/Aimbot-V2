@@ -58,7 +58,7 @@ getgenv().Aimbot.FOVSettings = {
 }
 ```
 ⚠️WARNING⚠️ - ***The WallCheck function is very laggy, it is recommended you have it set as*** **false** ***at all times!***
-* You can also find the JSON format (which is the way they get stored) [here](https://github.com/Exunys/Wall-Hack/tree/main/Resources/Settings).
+* You can also find the JSON format (which is the way they get stored) [here](https://github.com/Exunys/Aimbot-V2/tree/main/Resources/Settings).
 * The Lua format of the settings / the factory reset script can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Manual%20Factory%20Reset%20Settings.lua).
 
 By reading the visual representation of the configuration part of the environment table, it should be pretty easy to configure the script afterwards. Here are some examples:
