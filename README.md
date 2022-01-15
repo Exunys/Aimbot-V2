@@ -18,7 +18,7 @@ You can re-use / stitch this script or any system of this project into any of yo
   - `Drawing`
   - `getgenv()`
   - `syn.queue_on_teleport()`
-* This script will store your changed settings every 10 seconds passed or upon leaving. You can also disable this feature, tutorial on how will appear later on in this document.
+* This script will store your changed settings every 10 seconds passed. You can also disable this feature, tutorial on how will appear later on in this document.
 * This script is indeed universal, but it might not run on games with specific character constructions (custom characters).
 * A recommended exploit to run this script on is [Synapse X](https://x.synapse.to).
 ## Environment
