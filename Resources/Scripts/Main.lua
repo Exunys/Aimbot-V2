@@ -1,3 +1,6 @@
+-- DEBUG:
+local suc,er= pcall(function()
+
 --// Preventing Multiple Processes
 
 pcall(function()
@@ -114,9 +117,9 @@ end
 
 
 local function peformPlayerManipulation(v,t) 
-    if Environment.Settings.TeamCheck and t == LocalPlayer.Team then continue end 
-    if Environment.Settings.AliveCheck and v.Humanoid.Health <= 0 then continue end
-    if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v[Environment.Settings.LockPart].Position}, v:GetDescendants())) > 0 then continue end
+    if Environment.Settings.AliveCheck and v.Humanoid.Health <= 0 then return end
+    if Environment.Settings.TeamCheck and t == LocalPlayer.Team then return end 
+    if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v[Environment.Settings.LockPart].Position}, v:GetDescendants())) > 0 then return end
 
     local Vector, OnScreen = Camera:WorldToViewportPoint(v[Environment.Settings.LockPart].Position)
     local Distance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Vector.X, Vector.Y)).Magnitude
@@ -128,14 +131,14 @@ local function peformPlayerManipulation(v,t)
 end
 local placeSupport = { -- modularly made by ExportedLocal
 {292439477,function()
-    for _,v in pairs(game.Workspace.[INSERT TEAM HERE]:FirstForChild(game.Players.LocalPlayer.Team):GetChildren()) do --CONTINUE
-        local tParse = nil
-        if game.Players.LocalPlayer.Team == "Bright Orange" then --CONTINUE
-            tParse = "Other orange" --CONTINUE
-        else
-            tParse = "Bright Orange" --CONTINUE
-        end
-        peformPlayerManipulation(v,tParse)
+    local tParse
+    if game.Players.LocalPlayer.Team.Name == "Bright blue" then 
+        tParse = "Bright orange"
+    else
+        tParse = "Bright blue"
+    end
+    for _,v in pairs(game.Workspace.Players:FirstForChild(tParse):GetChildren()) do
+        peformPlayerManipulation(v,game.Teams:FindFirstChild(tParse))
     end
 end}
 }
@@ -384,3 +387,7 @@ end
 --// Load
 
 Load(); SendNotification(Title, "Aimbot script successfully loaded! Check the GitHub page on how to configure the script.", 5)
+
+--DEBUG:
+end) 
+print(er)
