@@ -17,6 +17,7 @@ local HttpService = game:GetService("HttpService")
 local TweenService = game:GetService("TweenService")
 local StarterGui = game:GetService("StarterGui")
 local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
 local Camera = game:GetService("Workspace").CurrentCamera
 
 --// Variables
@@ -43,7 +44,7 @@ Environment.Settings = {
     Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
     TriggerKey = "MouseButton2",
     Toggle = false,
-    LockPart = "Head" -- Body part to lock on
+    LockPart = "Head" -- Body part to lock on, AND WILL BE OVERWRITTEN IN GAMES SUCH AS PHANTOM FORCES TO HEAD
 }
 
 Environment.FOVSettings = {
@@ -111,32 +112,52 @@ local function SaveSettings()
     end
 end
 
+
+local function peformPlayerManipulation(v,t) 
+    if Environment.Settings.TeamCheck and t == LocalPlayer.Team then continue end 
+    if Environment.Settings.AliveCheck and v.Humanoid.Health <= 0 then continue end
+    if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v[Environment.Settings.LockPart].Position}, v:GetDescendants())) > 0 then continue end
+
+    local Vector, OnScreen = Camera:WorldToViewportPoint(v[Environment.Settings.LockPart].Position)
+    local Distance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Vector.X, Vector.Y)).Magnitude
+
+    if Distance < RequiredDistance and OnScreen then
+        RequiredDistance = Distance
+        Environment.Locked = v
+    end
+end
+local placeSupport = { -- modularly made by ExportedLocal
+{292439477,function()
+    for _,v in pairs(game.Workspace.[INSERT TEAM HERE]:FirstForChild(game.Players.LocalPlayer.Team):GetChildren()) do --CONTINUE
+        local tParse = nil
+        if game.Players.LocalPlayer.Team == "Bright Orange" then --CONTINUE
+            tParse = "Other orange" --CONTINUE
+        else
+            tParse = "Bright Orange" --CONTINUE
+        end
+        peformPlayerManipulation(v,tParse)
+    end
+end}
+}
 local function GetClosestPlayer()
     if Environment.Locked == nil then
-        if Environment.FOVSettings.Enabled then
+        if Environment.FOVSettings.Enabled then 
             RequiredDistance = Environment.FOVSettings.Amount
         else
             RequiredDistance = math.huge
         end
-
-        for _, v in next, Players:GetPlayers() do
-            if v ~= LocalPlayer then
-                if v.Character[Environment.Settings.LockPart] then
-                    if Environment.Settings.TeamCheck and v.Team == LocalPlayer.Team then continue end
-                    if Environment.Settings.AliveCheck and v.Character.Humanoid.Health <= 0 then continue end
-                    if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v.Character[Environment.Settings.LockPart].Position}, v.Character:GetDescendants())) > 0 then continue end
-
-                    local Vector, OnScreen = Camera:WorldToViewportPoint(v.Character[Environment.Settings.LockPart].Position)
-                    local Distance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Vector.X, Vector.Y)).Magnitude
-
-                    if Distance < RequiredDistance and OnScreen then
-                        RequiredDistance = Distance
-                        Environment.Locked = v
-                    end
-                end
+        local defaultAttainted = false
+        for _,v in pairs(placeSupport) do
+            if game.PlaceId == v[0] then v[1](); defaultAttainted = true; end
+        end
+        if defaultAttainted == false then
+            for _,v in pairs(game.Players:GetChildren()) do
+                pcall(function()
+                    peformPlayerManipulation(v.Character,v.Team)
+                end)
             end
         end
-    elseif (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position).X, Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position).Y)).Magnitude > RequiredDistance then
+    elseif (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Camera:WorldToViewportPoint(Environment.Locked[Environment.Settings.LockPart].Position).X, Camera:WorldToViewportPoint(Environment.Locked[Environment.Settings.LockPart].Position).Y)).Magnitude > RequiredDistance then
         Environment.Locked = nil
         Animation:Cancel()
         Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
