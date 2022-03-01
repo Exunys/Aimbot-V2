@@ -6,13 +6,11 @@ local StarterGui = game:GetService("StarterGui")
 --// Functions
 
 local function SendNotification(TitleArg, DescriptionArg, DurationArg)
-    if Environment.Settings.SendNotifications then
-        StarterGui:SetCore("SendNotification", {
-            Title = TitleArg,
-            Text = DescriptionArg,
-            Duration = DurationArg
-        })
-    end
+    StarterGui:SetCore("SendNotification", {
+        Title = TitleArg,
+        Text = DescriptionArg,
+        Duration = DurationArg
+    })
 end
 
 --// Main
@@ -23,6 +21,7 @@ if not delfile then SendNotification(Title, "Your exploit does not support delfi
 if not makefolder then SendNotification(Title, "Your exploit does not support makefolder()", 3) return end
 if not isfolder then SendNotification(Title, "Your exploit does not support isfolder()", 3) return end
 if not delfolder then SendNotification(Title, "Your exploit does not support delfolder()", 3) return end
+if not syn then SendNotification(Title, "Your exploit does not support the library syn", 3) return end
 if not syn.queue_on_teleport then SendNotification(Title, "Your exploit does not support syn.queue_on_teleport()", 3) return end
 if not Drawing then SendNotification(Title, "Your exploit does not support the library Drawing", 3) return end
 if not getgenv then SendNotification(Title, "Your exploit does not support getgenv()", 3) return end
