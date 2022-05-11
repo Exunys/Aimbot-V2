@@ -1,7 +1,7 @@
 --// Cache
 
 local select = select
-local pcall, getgenv, type, tonumber, next, Vector2 = select(1, pcall, getgenv, type, tonumber, next, Vector2.new)
+local pcall, getgenv, next, continue, Vector2 = select(1, pcall, getgenv, next, continue, Vector2.new)
 
 --// Preventing Multiple Processes
 
