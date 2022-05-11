@@ -57,6 +57,10 @@ getgenv().Aimbot.FOVSettings = {
     Filled = false
 }
 ```
+**Graphic View (Horizontal Tree Diagram)**
+
+![image](https://user-images.githubusercontent.com/76539058/167846294-9a9f023a-14a8-42f2-b693-8557bc6a8ba5.png)
+
 ⚠️WARNING⚠️ - ***The WallCheck function is very laggy, it is recommended you have it set as*** **false** ***at all times!***
 * You can also find the JSON format (which is the way they get stored) [here](https://github.com/Exunys/Aimbot-V2/tree/main/Resources/Settings).
 * The Lua format of the settings / the factory reset script can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Manual%20Factory%20Reset%20Settings.lua).
@@ -82,6 +86,14 @@ getgenv().Aimbot.FOVSettings.Enabled = false
 The options are endless, you can configure the script in any way you desire.
 
 Read about the input types and more information about the drawing library in use for the FOV Circle (to learn how to configure it) [here](https://x.synapse.to/docs/reference/drawing_lib.html).
+
+### Disable Storage System
+If you want to disable the script saving the settings & delete the saved settings, you can do that automatically by executing the code below:
+```lua
+getgenv().Aimbot.Settings.SaveSettings = false
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Delete%20Settings%20-%20Fix%20Script.lua"))()
+```
+
 ## Fixes
 If the script is not running upon execution, try a few of the solutions below:
 ### Solutions
@@ -155,13 +167,21 @@ The video above presents the `Environment.Functions:Exit()` function. Read the *
 ```lua
 getgenv().Aimbot.Functions:Exit()
 ```
-
+## Raw Source
+- This source does not include any Exunys Developer systems like storing the settings, sending notifications, using colors as strings, reloading the script on teleport etc.
+- This source is more optimized and relatively smaller to allow the user to modify the code and freely put it into their own script. But of course, do not forget that this script has a [license](https://github.com/Exunys/Aimbot-V2/blob/main/LICENSE).
+- The raw source can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Raw%20Main.lua).
 ## Script
+### Default (With Exunys Developer Systems)
 Load the script by copying it from [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Main.lua) or by executing the code below.
 ```lua
---// Script
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua"))()
+```
+### Raw (Without Exunys Developer Systems)
+Load the script by copying it from [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Raw%20Main.lua) or by executing the code below.
+
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Raw%20Main.lua"))()
 ```
 ## Contact Information
 - [Email](mailto:exunys@gmail.com)
