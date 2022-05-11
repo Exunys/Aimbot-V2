@@ -1,7 +1,5 @@
 pcall(function()
-	local Title = "Exunys Developer"
-
-	if isfolder(Title) then
-		delfolder(Title)
+	if isfolder("Exunys Developer") then
+		delfolder("Exunys Developer")
 	end
 end)
