@@ -356,7 +356,7 @@ if Environment.Settings.ReloadOnTeleport then
     local queueonteleport = queue_on_teleport or syn.queue_on_teleport
 
     if queueonteleport then
-        queueonteleport(game:HttpGet("https://pastebin.com/raw/n8wG8BZq"))
+        queueonteleport(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua"))
     else
         SendNotification(Title, "Your exploit does not support \"syn.queue_on_teleport()\"")
     end
