@@ -352,9 +352,9 @@ end
 
 --// Reload On Teleport
 
-local queueonteleport = queue_on_teleport or syn.queue_on_teleport
-
 if Environment.Settings.ReloadOnTeleport then
+    local queueonteleport = queue_on_teleport or syn.queue_on_teleport
+
     if queueonteleport then
         queueonteleport(game:HttpGet("https://pastebin.com/raw/n8wG8BZq"))
     else
