@@ -1,7 +1,7 @@
 --// Cache
 
 local select = select
-local pcall, getgenv, next, continue, Vector2, mathclamp = select(1, pcall, getgenv, next, continue, Vector2.new, math.clamp)
+local pcall, getgenv, next, continue, Vector2, mathclamp, mousemoverel = select(1, pcall, getgenv, next, continue, Vector2.new, math.clamp, mousemoverel or (Input and Input.MouseMove))
 
 --// Preventing Multiple Processes
 
@@ -122,7 +122,7 @@ local function Load()
 
 			if Environment.Locked then
 				if Environment.Settings.ThirdPerson then
-					Environment.Settings.ThirdPersonSensitivity = math.clamp(Environment.Settings.ThirdPersonSensitivity, 0.1, 5)
+					Environment.Settings.ThirdPersonSensitivity = mathclamp(Environment.Settings.ThirdPersonSensitivity, 0.1, 5)
 
 					local Vector = Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position)
 					mousemoverel((Vector.X - UserInputService:GetMouseLocation().X) * Environment.Settings.ThirdPersonSensitivity, (Vector.Y - UserInputService:GetMouseLocation().Y) * Environment.Settings.ThirdPersonSensitivity)
