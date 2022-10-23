@@ -1,7 +1,7 @@
 --// Preventing Multiple Processes
 
 pcall(function()
-    getgenv().Aimbot.Functions:Exit()
+	getgenv().Aimbot.Functions:Exit()
 end)
 
 --// Environment
@@ -33,29 +33,31 @@ local ServiceConnections = {RenderSteppedConnection = nil, InputBeganConnection 
 --// Script Settings
 
 Environment.Settings = {
-    SendNotifications = true,
-    SaveSettings = true, -- Re-execute upon changing
-    ReloadOnTeleport = true,
-    Enabled = true,
-    TeamCheck = false,
-    AliveCheck = true,
-    WallCheck = false, -- Laggy
-    Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
-    TriggerKey = "MouseButton2",
-    Toggle = false,
-    LockPart = "Head" -- Body part to lock on
+	SendNotifications = true,
+	SaveSettings = true, -- Re-execute upon changing
+	ReloadOnTeleport = true,
+	Enabled = true,
+	TeamCheck = false,
+	AliveCheck = true,
+	WallCheck = false, -- Laggy
+	Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
+	ThirdPerson = false, -- Uses mousemoverel instead of CFrame to support locking in third person (could be choppy)
+	ThirdPersonSensitivity = 3, -- Boundary: 0.1 - 5
+	TriggerKey = "MouseButton2",
+	Toggle = false,
+	LockPart = "Head" -- Body part to lock on
 }
 
 Environment.FOVSettings = {
-    Enabled = true,
-    Visible = true,
-    Amount = 90,
-    Color = "255, 255, 255",
-    LockedColor = "255, 70, 70",
-    Transparency = 0.5,
-    Sides = 60,
-    Thickness = 1,
-    Filled = false
+	Enabled = true,
+	Visible = true,
+	Amount = 90,
+	Color = "255, 255, 255",
+	LockedColor = "255, 70, 70",
+	Transparency = 0.5,
+	Sides = 60,
+	Thickness = 1,
+	Filled = false
 }
 
 Environment.FOVCircle = Drawing.new("Circle")
@@ -64,219 +66,226 @@ Environment.Locked = nil
 --// Core Functions
 
 local function Encode(Table)
-    if Table and type(Table) == "table" then
-        local EncodedTable = HttpService:JSONEncode(Table)
+	if Table and type(Table) == "table" then
+		local EncodedTable = HttpService:JSONEncode(Table)
 
-        return EncodedTable
-    end
+		return EncodedTable
+	end
 end
 
 local function Decode(String)
-    if String and type(String) == "string" then
-        local DecodedTable = HttpService:JSONDecode(String)
+	if String and type(String) == "string" then
+		local DecodedTable = HttpService:JSONDecode(String)
 
-        return DecodedTable
-    end
+		return DecodedTable
+	end
 end
 
 local function GetColor(Color)
-    local R = tonumber(string.match(Color, "([%d]+)[%s]*,[%s]*[%d]+[%s]*,[%s]*[%d]+"))
-    local G = tonumber(string.match(Color, "[%d]+[%s]*,[%s]*([%d]+)[%s]*,[%s]*[%d]+"))
-    local B = tonumber(string.match(Color, "[%d]+[%s]*,[%s]*[%d]+[%s]*,[%s]*([%d]+)"))
+	local R = tonumber(string.match(Color, "([%d]+)[%s]*,[%s]*[%d]+[%s]*,[%s]*[%d]+"))
+	local G = tonumber(string.match(Color, "[%d]+[%s]*,[%s]*([%d]+)[%s]*,[%s]*[%d]+"))
+	local B = tonumber(string.match(Color, "[%d]+[%s]*,[%s]*[%d]+[%s]*,[%s]*([%d]+)"))
 
-    return Color3.fromRGB(R, G, B)
+	return Color3.fromRGB(R, G, B)
 end
 
 local function SendNotification(TitleArg, DescriptionArg, DurationArg)
-    if Environment.Settings.SendNotifications then
-        StarterGui:SetCore("SendNotification", {
-            Title = TitleArg,
-            Text = DescriptionArg,
-            Duration = DurationArg
-        })
-    end
+	if Environment.Settings.SendNotifications then
+		StarterGui:SetCore("SendNotification", {
+			Title = TitleArg,
+			Text = DescriptionArg,
+			Duration = DurationArg
+		})
+	end
 end
 
 --// Functions
 
 local function SaveSettings()
-    if Environment.Settings.SaveSettings then
-        if isfile(Title.."/"..FileNames[1].."/"..FileNames[2]) then
-            writefile(Title.."/"..FileNames[1].."/"..FileNames[2], Encode(Environment.Settings))
-        end
+	if Environment.Settings.SaveSettings then
+		if isfile(Title.."/"..FileNames[1].."/"..FileNames[2]) then
+			writefile(Title.."/"..FileNames[1].."/"..FileNames[2], Encode(Environment.Settings))
+		end
 
-        if isfile(Title.."/"..FileNames[1].."/"..FileNames[3]) then
-            writefile(Title.."/"..FileNames[1].."/"..FileNames[3], Encode(Environment.FOVSettings))
-        end
-    end
+		if isfile(Title.."/"..FileNames[1].."/"..FileNames[3]) then
+			writefile(Title.."/"..FileNames[1].."/"..FileNames[3], Encode(Environment.FOVSettings))
+		end
+	end
 end
 
 local function GetClosestPlayer()
-    if Environment.Locked == nil then
-        if Environment.FOVSettings.Enabled then
-            RequiredDistance = Environment.FOVSettings.Amount
-        else
-            RequiredDistance = math.huge
-        end
+	if Environment.Locked == nil then
+		if Environment.FOVSettings.Enabled then
+			RequiredDistance = Environment.FOVSettings.Amount
+		else
+			RequiredDistance = math.huge
+		end
 
-        for _, v in next, Players:GetPlayers() do
-            if v ~= LocalPlayer then
-                if v.Character and v.Character[Environment.Settings.LockPart] then
-                    if Environment.Settings.TeamCheck and v.Team == LocalPlayer.Team then continue end
-                    if Environment.Settings.AliveCheck and v.Character.Humanoid.Health <= 0 then continue end
-                    if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v.Character[Environment.Settings.LockPart].Position}, v.Character:GetDescendants())) > 0 then continue end
+		for _, v in next, Players:GetPlayers() do
+			if v ~= LocalPlayer then
+				if v.Character and v.Character[Environment.Settings.LockPart] then
+					if Environment.Settings.TeamCheck and v.Team == LocalPlayer.Team then continue end
+					if Environment.Settings.AliveCheck and v.Character.Humanoid.Health <= 0 then continue end
+					if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v.Character[Environment.Settings.LockPart].Position}, v.Character:GetDescendants())) > 0 then continue end
 
-                    local Vector, OnScreen = Camera:WorldToViewportPoint(v.Character[Environment.Settings.LockPart].Position)
-                    local Distance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Vector.X, Vector.Y)).Magnitude
+					local Vector, OnScreen = Camera:WorldToViewportPoint(v.Character[Environment.Settings.LockPart].Position)
+					local Distance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Vector.X, Vector.Y)).Magnitude
 
-                    if Distance < RequiredDistance and OnScreen then
-                        RequiredDistance = Distance
-                        Environment.Locked = v
-                    end
-                end
-            end
-        end
-    elseif (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position).X, Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position).Y)).Magnitude > RequiredDistance then
-        Environment.Locked = nil
-        Animation:Cancel()
-        Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
-    end
+					if Distance < RequiredDistance and OnScreen then
+						RequiredDistance = Distance
+						Environment.Locked = v
+					end
+				end
+			end
+		end
+	elseif (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position).X, Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position).Y)).Magnitude > RequiredDistance then
+		Environment.Locked = nil
+		Animation:Cancel()
+		Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
+	end
 end
 
 --// Typing Check
 
 ServiceConnections.TypingStartedConnection = UserInputService.TextBoxFocused:Connect(function()
-    Typing = true
+	Typing = true
 end)
 
 ServiceConnections.TypingEndedConnection = UserInputService.TextBoxFocusReleased:Connect(function()
-    Typing = false
+	Typing = false
 end)
 
 --// Create, Save & Load Settings
 
 if Environment.Settings.SaveSettings then
-    if not isfolder(Title) then
-        makefolder(Title)
-    end
+	if not isfolder(Title) then
+		makefolder(Title)
+	end
 
-    if not isfolder(Title.."/"..FileNames[1]) then
-        makefolder(Title.."/"..FileNames[1])
-    end
+	if not isfolder(Title.."/"..FileNames[1]) then
+		makefolder(Title.."/"..FileNames[1])
+	end
 
-    if not isfile(Title.."/"..FileNames[1].."/"..FileNames[2]) then
-        writefile(Title.."/"..FileNames[1].."/"..FileNames[2], Encode(Environment.Settings))
-    else
-        Environment.Settings = Decode(readfile(Title.."/"..FileNames[1].."/"..FileNames[2]))
-    end
+	if not isfile(Title.."/"..FileNames[1].."/"..FileNames[2]) then
+		writefile(Title.."/"..FileNames[1].."/"..FileNames[2], Encode(Environment.Settings))
+	else
+		Environment.Settings = Decode(readfile(Title.."/"..FileNames[1].."/"..FileNames[2]))
+	end
 
-    if not isfile(Title.."/"..FileNames[1].."/"..FileNames[3]) then
-        writefile(Title.."/"..FileNames[1].."/"..FileNames[3], Encode(Environment.FOVSettings))
-    else
-        Environment.Visuals = Decode(readfile(Title.."/"..FileNames[1].."/"..FileNames[3]))
-    end
+	if not isfile(Title.."/"..FileNames[1].."/"..FileNames[3]) then
+		writefile(Title.."/"..FileNames[1].."/"..FileNames[3], Encode(Environment.FOVSettings))
+	else
+		Environment.Visuals = Decode(readfile(Title.."/"..FileNames[1].."/"..FileNames[3]))
+	end
 
-    coroutine.wrap(function()
-        while wait(10) do
-            SaveSettings()
-        end
-    end)()
+	coroutine.wrap(function()
+		while wait(10) do
+			SaveSettings()
+		end
+	end)()
 else
-    if isfolder(Title) then
-        delfolder(Title)
-    end
+	if isfolder(Title) then
+		delfolder(Title)
+	end
 end
 
 local function Load()
-    ServiceConnections.RenderSteppedConnection = RunService.RenderStepped:Connect(function()
-        if Environment.FOVSettings.Enabled and Environment.Settings.Enabled then
-            Environment.FOVCircle.Radius = Environment.FOVSettings.Amount
-            Environment.FOVCircle.Thickness = Environment.FOVSettings.Thickness
-            Environment.FOVCircle.Filled = Environment.FOVSettings.Filled
-            Environment.FOVCircle.NumSides = Environment.FOVSettings.Sides
-            Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
-            Environment.FOVCircle.Transparency = Environment.FOVSettings.Transparency
-            Environment.FOVCircle.Visible = Environment.FOVSettings.Visible
-            Environment.FOVCircle.Position = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y)
-        else
-            Environment.FOVCircle.Visible = false
-        end
+	ServiceConnections.RenderSteppedConnection = RunService.RenderStepped:Connect(function()
+		if Environment.FOVSettings.Enabled and Environment.Settings.Enabled then
+			Environment.FOVCircle.Radius = Environment.FOVSettings.Amount
+			Environment.FOVCircle.Thickness = Environment.FOVSettings.Thickness
+			Environment.FOVCircle.Filled = Environment.FOVSettings.Filled
+			Environment.FOVCircle.NumSides = Environment.FOVSettings.Sides
+			Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
+			Environment.FOVCircle.Transparency = Environment.FOVSettings.Transparency
+			Environment.FOVCircle.Visible = Environment.FOVSettings.Visible
+			Environment.FOVCircle.Position = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y)
+		else
+			Environment.FOVCircle.Visible = false
+		end
 
-        if Running and Environment.Settings.Enabled then
-            GetClosestPlayer()
+		if Running and Environment.Settings.Enabled then
+			GetClosestPlayer()
 
-            if Environment.Settings.Sensitivity > 0 then
-                Animation = TweenService:Create(Camera, TweenInfo.new(Environment.Settings.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, Environment.Locked.Character[Environment.Settings.LockPart].Position)})
-                Animation:Play()
-            else
-                Camera.CFrame = CFrame.new(Camera.CFrame.Position, Environment.Locked.Character[Environment.Settings.LockPart].Position)
-            end
+			if Environment.Settings.ThirdPerson then
+                Environment.Settings.ThirdPersonSensitivity = math.clamp(Environment.Settings.ThirdPersonSensitivity, 0.1, 5)
 
-            Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.LockedColor)
-        end
-    end)
+				local Vector = Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position)
+				mousemoverel((Vector.X - UserInputService:GetMouseLocation().X) * Environment.Settings.ThirdPersonSensitivity, (Vector.Y - UserInputService:GetMouseLocation().Y) * Environment.Settings.ThirdPersonSensitivity)
+			else
+				if Environment.Settings.Sensitivity > 0 then
+					Animation = TweenService:Create(Camera, TweenInfo.new(Environment.Settings.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, Environment.Locked.Character[Environment.Settings.LockPart].Position)})
+					Animation:Play()
+				else
+					Camera.CFrame = CFrame.new(Camera.CFrame.Position, Environment.Locked.Character[Environment.Settings.LockPart].Position)
+				end
+			end
 
-    ServiceConnections.InputBeganConnection = UserInputService.InputBegan:Connect(function(Input)
-        if not Typing then
-            pcall(function()
-                if Input.KeyCode == Enum.KeyCode[Environment.Settings.TriggerKey] then
-                    if Environment.Settings.Toggle then
-                        Running = not Running
+			Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.LockedColor)
+		end
+	end)
 
-                        if not Running then
-                            Environment.Locked = nil
-                            Animation:Cancel()
-                            Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
-                        end
-                    else
-                        Running = true
-                    end
-                end
-            end)
+	ServiceConnections.InputBeganConnection = UserInputService.InputBegan:Connect(function(Input)
+		if not Typing then
+			pcall(function()
+				if Input.KeyCode == Enum.KeyCode[Environment.Settings.TriggerKey] then
+					if Environment.Settings.Toggle then
+						Running = not Running
 
-            pcall(function()
-                if Input.UserInputType == Enum.UserInputType[Environment.Settings.TriggerKey] then
-                    if Environment.Settings.Toggle then
-                        Running = not Running
+						if not Running then
+							Environment.Locked = nil
+							Animation:Cancel()
+							Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
+						end
+					else
+						Running = true
+					end
+				end
+			end)
 
-                        if not Running then
-                            Environment.Locked = nil
-                            Animation:Cancel()
-                            Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
-                        end
-                    else
-                        Running = true
-                    end
-                end
-            end)
-        end
-    end)
+			pcall(function()
+				if Input.UserInputType == Enum.UserInputType[Environment.Settings.TriggerKey] then
+					if Environment.Settings.Toggle then
+						Running = not Running
 
-    ServiceConnections.InputEndedConnection = UserInputService.InputEnded:Connect(function(Input)
-        if not Typing then
-            pcall(function()
-                if Input.KeyCode == Enum.KeyCode[Environment.Settings.TriggerKey] then
-                    if not Environment.Settings.Toggle then
-                        Running = false
-                        Environment.Locked = nil
-                        Animation:Cancel()
-                        Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
-                    end
-                end
-            end)
+						if not Running then
+							Environment.Locked = nil
+							Animation:Cancel()
+							Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
+						end
+					else
+						Running = true
+					end
+				end
+			end)
+		end
+	end)
 
-            pcall(function()
-                if Input.UserInputType == Enum.UserInputType[Environment.Settings.TriggerKey] then
-                    if not Environment.Settings.Toggle then
-                        Running = false
-                        Environment.Locked = nil
-                        Animation:Cancel()
-                        Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
-                    end
-                end
-            end)
-        end
-    end)
+	ServiceConnections.InputEndedConnection = UserInputService.InputEnded:Connect(function(Input)
+		if not Typing then
+			pcall(function()
+				if Input.KeyCode == Enum.KeyCode[Environment.Settings.TriggerKey] then
+					if not Environment.Settings.Toggle then
+						Running = false
+						Environment.Locked = nil
+						Animation:Cancel()
+						Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
+					end
+				end
+			end)
+
+			pcall(function()
+				if Input.UserInputType == Enum.UserInputType[Environment.Settings.TriggerKey] then
+					if not Environment.Settings.Toggle then
+						Running = false
+						Environment.Locked = nil
+						Animation:Cancel()
+						Environment.FOVCircle.Color = GetColor(Environment.FOVSettings.Color)
+					end
+				end
+			end)
+		end
+	end)
 end
 
 --// Functions
@@ -284,82 +293,84 @@ end
 Environment.Functions = {}
 
 function Environment.Functions:Exit()
-    SaveSettings()
+	SaveSettings()
 
-    for _, v in next, ServiceConnections do
-        v:Disconnect()
-    end
+	for _, v in next, ServiceConnections do
+		v:Disconnect()
+	end
 
-    Environment.FOVCircle:Remove()
+	Environment.FOVCircle:Remove()
 
-    getgenv().Aimbot.Functions = nil
-    getgenv().Aimbot = nil
+	getgenv().Aimbot.Functions = nil
+	getgenv().Aimbot = nil
 end
 
 function Environment.Functions:Restart()
-    SaveSettings()
+	SaveSettings()
 
-    for _, v in next, ServiceConnections do
-        v:Disconnect()
-    end
+	for _, v in next, ServiceConnections do
+		v:Disconnect()
+	end
 
-    Environment.FOVCircle:Remove()
+	Environment.FOVCircle:Remove()
 
-    Load()
+	Load()
 end
 
 function Environment.Functions:ResetSettings()
-    Environment.Settings = {
-        SendNotifications = true,
-        SaveSettings = true, -- Re-execute upon changing
-        ReloadOnTeleport = true,
-        Enabled = true,
-        TeamCheck = false,
-        AliveCheck = true,
-        WallCheck = false,
-        Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
-        TriggerKey = "MouseButton2",
-        Toggle = false,
-        LockPart = "Head" -- Body part to lock on
-    }
+	Environment.Settings = {
+		SendNotifications = true,
+		SaveSettings = true, -- Re-execute upon changing
+		ReloadOnTeleport = true,
+		Enabled = true,
+		TeamCheck = false,
+		AliveCheck = true,
+		WallCheck = false,
+		Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
+		ThirdPerson = false,
+		ThirdPersonSensitivity = 3,
+		TriggerKey = "MouseButton2",
+		Toggle = false,
+		LockPart = "Head" -- Body part to lock on
+	}
 
-    Environment.FOVSettings = {
-        Enabled = true,
-        Visible = true,
-        Amount = 90,
-        Color = "255, 255, 255",
-        LockedColor = "255, 70, 70",
-        Transparency = 0.5,
-        Sides = 60,
-        Thickness = 1,
-        Filled = false
-    }
+	Environment.FOVSettings = {
+		Enabled = true,
+		Visible = true,
+		Amount = 90,
+		Color = "255, 255, 255",
+		LockedColor = "255, 70, 70",
+		Transparency = 0.5,
+		Sides = 60,
+		Thickness = 1,
+		Filled = false
+	}
 
-    SaveSettings()
+	SaveSettings()
 
-    for _, v in next, ServiceConnections do
-        v:Disconnect()
-    end
+	for _, v in next, ServiceConnections do
+		v:Disconnect()
+	end
 
-    Load()
+	Load()
 end
 
 --// Support Check
 
 if not Drawing or not writefile or not makefolder then
-    SendNotification(Title, "Your exploit does not support this script", 3); return
+	SendNotification(Title, "Your exploit does not support this script", 3); return
 end
 
 --// Reload On Teleport
 
 if Environment.Settings.ReloadOnTeleport then
-    local queueonteleport = queue_on_teleport or syn.queue_on_teleport
+	local queueonteleport = queue_on_teleport or syn.queue_on_teleport
 
-    if queueonteleport then
-        queueonteleport(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua"))
-    else
-        SendNotification(Title, "Your exploit does not support \"syn.queue_on_teleport()\"")
-    end
+	if queueonteleport then
+		queueonteleport(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua"))
+	else
+		SendNotification(Title, "Your exploit does not support \"syn.queue_on_teleport()\"")
+	end
 end
 
 --// Load
