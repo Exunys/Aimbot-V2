@@ -1,13 +1,15 @@
 {
-  "AliveCheck": true,
+  "ThirdPersonSensitivity": 3,
   "ReloadOnTeleport": true,
   "Enabled": true,
-  "TeamCheck": false,
   "Sensitivity": 0,
   "SendNotifications": true,
   "WallCheck": false,
-  "LockPart": "Head",
+  "TriggerKey": "MouseButton2",
   "SaveSettings": true,
-  "Toggle": false,
-  "TriggerKey": "MouseButton2"
+  "AliveCheck": true,
+  "ThirdPerson": false,
+  "LockPart": "Head",
+  "TeamCheck": false,
+  "Toggle": false
 }
