@@ -1,4 +1,5 @@
 # Aimbot V2
+![Aimbot V2](https://user-images.githubusercontent.com/76539058/197401886-b988d375-a258-4555-a014-476295b67752.png)
 ## Information
 This script is a universal aim-locking script. Works on all games which use the default character. This specific version has lots of crucial improvements such as:
 - More Functions / Features & Settings
@@ -8,6 +9,10 @@ This script is a universal aim-locking script. Works on all games which use the 
 - Customization
 - Storing
 - Execution / Precise & Efficient
+- Third Person Support
+
+## Update Log (DD/MM/YYYY)
+- [23.10.2022] - **Added Third Person Support** (Read [*Script Examples*](https://github.com/Exunys/Aimbot-V2#script-examples)) 
 ### License
 This project is completely free and open sourced. But, that does not mean you own rights to it. Read this [document](https://github.com/Exunys/Aimbot-V2/blob/main/LICENSE) for more information.
 You can re-use / stitch this script or any system of this project into any of your repositories, as long as you credit the developer [Exunys](https://github.com/Exunys).
@@ -40,6 +45,8 @@ getgenv().Aimbot.Settings = {
     AliveCheck = true,
     WallCheck = false, -- Laggy
     Sensitivity = 0, -- Animation length (in seconds) before fully locking onto target
+    ThirdPerson = false, -- Uses mousemoverel instead of CFrame to support locking in third person (could be choppy)
+    ThirdPersonSensitivity = 3, -- Boundary: 0.1 - 5
     TriggerKey = "MouseButton2",
     Toggle = false,
     LockPart = "Head" -- Body part to lock on (Character part's name)
@@ -83,6 +90,16 @@ You can also disable FOV Checking incase you don't find it useful / don't need i
 ```lua
 getgenv().Aimbot.FOVSettings.Enabled = false
 ```
+If you want the script to work in third person, you can enable the *ThirdPerson* setting:
+```lua
+getgenv().Aimbot.Settings.ThirdPerson = true
+```
+If you want to edit the sensitivity for the third person mode:
+```lua
+-- The locking animation becomes faster as you increase the value (meaning 5 = fastest). The script becomes choppy if you increase the value.
+getgenv().Aimbot.Settings.ThirdPersonSensitivity = 3 -- Boundary: 0.1 - 5
+```
+
 The options are endless, you can configure the script in any way you desire.
 
 Read about the input types and more information about the drawing library in use for the FOV Circle (to learn how to configure it) [here](https://x.synapse.to/docs/reference/drawing_lib.html).
@@ -167,6 +184,14 @@ The video above presents the `Environment.Functions:Exit()` function. Read the *
 ```lua
 getgenv().Aimbot.Functions:Exit()
 ```
+
+https://user-images.githubusercontent.com/76539058/197402881-bb298b50-6e90-4b57-ab70-258f3f2b4521.mp4
+
+The video above shows how the script functions when the `Environment.Settings.ThirdPerson` value is set to `true`.
+```lua
+getgenv().Aimbot.Settings.ThirdPerson = true
+```
+
 ## Raw Source
 - This source does not include any Exunys Developer systems like storing the settings, sending notifications, using colors as strings, reloading the script on teleport etc.
 - This source is more optimized and relatively smaller to allow the user to modify the code and freely put it into their own script. But of course, do not forget that this script has a [license](https://github.com/Exunys/Aimbot-V2/blob/main/LICENSE).
