@@ -30,6 +30,11 @@ local Running = false
 local Animation = nil
 local ServiceConnections = {RenderSteppedConnection = nil, InputBeganConnection = nil, InputEndedConnection = nil, TypingStartedConnection = nil, TypingEndedConnection = nil}
 
+--// Support Functions
+
+local mousemoverel = mousemoverel or (Input and Input.MouseMove)
+local queueonteleport = syn.queue_on_teleport or queue_on_teleport
+
 --// Script Settings
 
 Environment.Settings = {
@@ -208,7 +213,7 @@ local function Load()
 			GetClosestPlayer()
 
 			if Environment.Settings.ThirdPerson then
-                Environment.Settings.ThirdPersonSensitivity = math.clamp(Environment.Settings.ThirdPersonSensitivity, 0.1, 5)
+				Environment.Settings.ThirdPersonSensitivity = math.clamp(Environment.Settings.ThirdPersonSensitivity, 0.1, 5)
 
 				local Vector = Camera:WorldToViewportPoint(Environment.Locked.Character[Environment.Settings.LockPart].Position)
 				mousemoverel((Vector.X - UserInputService:GetMouseLocation().X) * Environment.Settings.ThirdPersonSensitivity, (Vector.Y - UserInputService:GetMouseLocation().Y) * Environment.Settings.ThirdPersonSensitivity)
@@ -364,8 +369,6 @@ end
 --// Reload On Teleport
 
 if Environment.Settings.ReloadOnTeleport then
-	local queueonteleport = queue_on_teleport or syn.queue_on_teleport
-
 	if queueonteleport then
 		queueonteleport(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua"))
 	else
