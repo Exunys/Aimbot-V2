@@ -23,13 +23,16 @@ You can re-use / stitch this script or any system of this project into any of yo
 ## Update Log *(DD/MM/YYYY)*
 - [23.10.2022] - **Added Third Person Support** (Read [*Script Examples*](https://github.com/Exunys/Aimbot-V2#script-examples)) 
 ## Notices
-* This script will not run unless your exploit supports / includes these following functions / libraries:
+* The script will not function properly unless your exploit fully supports / includes these following functions & libraries:
   - `isfolder()`, `makefolder()` & `delfolder()`
   - `isfile()`, `writefile()` & `delfile()`
   - `getgenv()`
   - `syn.queue_on_teleport()` / `queue_on_teleport()`
   - `Drawing`
-* This script will store your changed settings every 10 seconds passed. You can also disable this feature, tutorial on how will appear later on in this document.
+* This script will store your changed settings every 10 seconds passed. You can also disable this feature: 
+```lua
+getgenv().Aimbot.Settings.SaveSettings = false
+```
 * This script is indeed universal, but it might not run on games with specific character constructions (custom characters).
 * A recommended exploit to run this script on is [Synapse X](https://x.synapse.to).
 ## Environment
