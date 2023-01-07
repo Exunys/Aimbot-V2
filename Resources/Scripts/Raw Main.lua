@@ -1,7 +1,7 @@
 --// Cache
 
 local select = select
-local pcall, getgenv, next, continue, Vector2, mathclamp, mousemoverel = select(1, pcall, getgenv, next, continue, Vector2.new, math.clamp, mousemoverel or (Input and Input.MouseMove))
+local pcall, getgenv, next, Vector2, mathclamp, mousemoverel = select(1, pcall, getgenv, next, Vector2.new, math.clamp, mousemoverel or (Input and Input.MouseMove))
 
 --// Preventing Multiple Processes
 
@@ -134,9 +134,9 @@ local function Load()
 						Camera.CFrame = CFrame.new(Camera.CFrame.Position, Environment.Locked.Character[Environment.Settings.LockPart].Position)
 					end
 				end
-			end
 
-				Environment.FOVCircle.Color = Environment.FOVSettings.LockedColor
+			Environment.FOVCircle.Color = Environment.FOVSettings.LockedColor
+
 			end
 		end
 	end)
