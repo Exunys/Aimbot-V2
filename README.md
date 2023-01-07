@@ -89,7 +89,7 @@ The following script will disable the aimbot temporarily:
 ```lua
 getgenv().Aimbot.Settings.Enabled = false
 ```
-You can also change the color of the of the FOV Circle:
+You can also change the color of the FOV Circle:
 ```lua
 getgenv().Aimbot.FOVSettings.Color = "50, 255, 70" -- The colors must be fed as strings in RGB format. [(R)ed (0 - 255); (G)reen (0 - 255); (B)lue (0 - 255)]
 ```
