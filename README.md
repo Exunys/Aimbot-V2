@@ -15,13 +15,13 @@ This script is a universal aim-locking script. Works on all games which use the 
 - Storing
 - Execution / Precise & Efficient
 - Third Person Support
-
 ### License
 This project is completely free and open sourced. But, that does not mean you own rights to it. Read this [document](https://github.com/Exunys/Aimbot-V2/blob/main/LICENSE) for more information.
 You can re-use / stitch this script or any system of this project into any of your repositories, as long as you credit the developer [Exunys](https://github.com/Exunys).
 
 ## Update Log *(DD/MM/YYYY)*
-- [23.10.2022] - **Added Third Person Support** (Read [*Script Examples*](https://github.com/Exunys/Aimbot-V2#script-examples)) 
+- [23/10/2022] - **Added Third Person Support** (Read [*Script Examples*](https://github.com/Exunys/Aimbot-V2#script-examples))
+- [08/01/2023] - **Bug fixes, optimizations & new script - [Aimbot V2 GUI](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Aimbot%20V2%20GUI.lua)** (Read [*Aimbot V2 GUI*](https://github.com/Exunys/Aimbot-V2#aimbot-v2-gui))
 ## Notices
 * The script will not function properly unless your exploit fully supports / includes these following functions & libraries:
   - `isfolder()`, `makefolder()` & `delfolder()`
@@ -124,7 +124,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main
 If the script is not running upon execution, try a few of the solutions below:
 ### Solutions
 * There is possibly a configuration that is unacceptable at most cases. Execute [this script](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Delete%20Settings%20-%20Fix%20Script.lua) and restart your game for changes to take effect.
-* Open your exploit's root folder, find a folder named `workspace` and look for a folder named `Exunys Developer`. Once you find it, delete this folder and restart your game.
+* Open your exploit's root folder, find a folder named `workspace` and look for a folder named `Exunys Developer`, inside there should be another folder named `Aimbot`. Once you find it, delete this folder and restart your game.
 
 If none of these solutions work, check if your exploit is supported (read the **Notices** part). If the script still doesn't work, contact Exunys & report the problem you are experiencing in detail.
 
@@ -201,11 +201,24 @@ The video above shows how the script functions when the `Environment.Settings.Th
 getgenv().Aimbot.Settings.ThirdPerson = true
 ```
 
+https://user-images.githubusercontent.com/76539058/211179224-df514393-1d7f-46fc-ad3d-eab1035b2ac3.mp4
+
+The video above shows the [Aimbot V2 GUI](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Aimbot%20V2%20GUI.lua).
+
 ## Raw Source
 - This source does not include any Exunys Developer systems like storing the settings, sending notifications, using colors as strings, reloading the script on teleport etc.
 - This source is more optimized and relatively smaller to allow the user to modify the code and freely put it into their own script. But of course, do not forget that this script has a [license](https://github.com/Exunys/Aimbot-V2/blob/main/LICENSE).
 - The raw source can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Raw%20Main.lua).
+## Aimbot V2 GUI
+This script can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Aimbot%20V2%20GUI.lua). The script is powered by [Pepsi's UI Library](https://v3rmillion.net/showthread.php?tid=1139856) and it uses the [Raw Aimbot V2 Source](https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Raw%20Main.lua). 
+
+This script is the same as the raw source but implemented into a UI Library which can be used as an independent script rather then an embeddable script for other developers. 
 ## Script
+### GUI
+Load the script by copying it from [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Aimbot%20V2%20GUI.lua) or by executing the code below.
+```lua
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Aimbot%20V2%20GUI.lua"))()
+```
 ### Default (With Exunys Developer Systems)
 Load the script by copying it from [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Main.lua) or by executing the code below.
 ```lua
