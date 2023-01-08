@@ -24,16 +24,12 @@ local Camera = game:GetService("Workspace").CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 local Title = "Exunys Developer"
 local FileNames = {"Aimbot", "Configuration.json", "Drawing.json"}
-local RequiredDistance = math.huge
-local Typing = false
-local Running = false
-local Animation = nil
-local ServiceConnections = {RenderSteppedConnection = nil, InputBeganConnection = nil, InputEndedConnection = nil, TypingStartedConnection = nil, TypingEndedConnection = nil}
+local Typing, Running, Animation, RequiredDistance, ServiceConnections = false, false, nil, 2000, {}
 
 --// Support Functions
 
 local mousemoverel = mousemoverel or (Input and Input.MouseMove)
-local queueonteleport = syn.queue_on_teleport or queue_on_teleport
+local queueonteleport = queue_on_teleport or syn.queue_on_teleport
 
 --// Script Settings
 
@@ -119,18 +115,18 @@ local function SaveSettings()
 end
 
 local function GetClosestPlayer()
-	if Environment.Locked == nil then
+	if not Environment.Locked then
 		if Environment.FOVSettings.Enabled then
 			RequiredDistance = Environment.FOVSettings.Amount
 		else
-			RequiredDistance = math.huge
+			RequiredDistance = 2000
 		end
 
 		for _, v in next, Players:GetPlayers() do
 			if v ~= LocalPlayer then
-				if v.Character and v.Character[Environment.Settings.LockPart] then
+				if v.Character and v.Character:FindFirstChild(Environment.Settings.LockPart) and v.Character:FindFirstChildOfClass("Humanoid") then
 					if Environment.Settings.TeamCheck and v.Team == LocalPlayer.Team then continue end
-					if Environment.Settings.AliveCheck and v.Character.Humanoid.Health <= 0 then continue end
+					if Environment.Settings.AliveCheck and v.Character:FindFirstChildOfClass("Humanoid").Health <= 0 then continue end
 					if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v.Character[Environment.Settings.LockPart].Position}, v.Character:GetDescendants())) > 0 then continue end
 
 					local Vector, OnScreen = Camera:WorldToViewportPoint(v.Character[Environment.Settings.LockPart].Position)
@@ -184,7 +180,7 @@ if Environment.Settings.SaveSettings then
 	end
 
 	coroutine.wrap(function()
-		while wait(10) do
+		while wait(10) and Environment.Settings.SaveSettings do
 			SaveSettings()
 		end
 	end)()
@@ -304,7 +300,7 @@ function Environment.Functions:Exit()
 		v:Disconnect()
 	end
 
-	Environment.FOVCircle:Remove()
+	if Environment.FOVCircle.Remove then Environment.FOVCircle:Remove() end
 
 	getgenv().Aimbot.Functions = nil
 	getgenv().Aimbot = nil
@@ -316,8 +312,6 @@ function Environment.Functions:Restart()
 	for _, v in next, ServiceConnections do
 		v:Disconnect()
 	end
-
-	Environment.FOVCircle:Remove()
 
 	Load()
 end
@@ -350,19 +344,11 @@ function Environment.Functions:ResetSettings()
 		Thickness = 1,
 		Filled = false
 	}
-
-	SaveSettings()
-
-	for _, v in next, ServiceConnections do
-		v:Disconnect()
-	end
-
-	Load()
 end
 
 --// Support Check
 
-if not Drawing or not writefile or not makefolder then
+if not Drawing or not getgenv then
 	SendNotification(Title, "Your exploit does not support this script", 3); return
 end
 
