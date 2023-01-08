@@ -60,7 +60,7 @@ Environment.FOVCircle = Drawing.new("Circle")
 
 local function CancelLock()
 	Environment.Locked = nil
-	Animation:Cancel()
+	if Animation then Animation:Cancel() end
 	Environment.FOVCircle.Color = Environment.FOVSettings.Color
 end
 
@@ -70,7 +70,7 @@ local function GetClosestPlayer()
 
 		for _, v in next, Players:GetPlayers() do
 			if v ~= LocalPlayer then
-				if v.Character and v.Character[Environment.Settings.LockPart] then
+				if v.Character and v.Character:FindFirstChild(Environment.Settings.LockPart) then
 					if Environment.Settings.TeamCheck and v.Team == LocalPlayer.Team then continue end
 					if Environment.Settings.AliveCheck and v.Character.Humanoid.Health <= 0 then continue end
 					if Environment.Settings.WallCheck and #(Camera:GetPartsObscuringTarget({v.Character[Environment.Settings.LockPart].Position}, v.Character:GetDescendants())) > 0 then continue end
@@ -201,18 +201,18 @@ function Environment.Functions:Exit()
 		v:Disconnect()
 	end
 
-	Environment.FOVCircle:Remove()
+	if Environment.FOVCircle.Remove then Environment.FOVCircle:Remove() end
 
 	getgenv().Aimbot.Functions = nil
 	getgenv().Aimbot = nil
+	
+	Load = nil; GetClosestPlayer = nil; CancelLock = nil
 end
 
 function Environment.Functions:Restart()
 	for _, v in next, ServiceConnections do
 		v:Disconnect()
 	end
-
-	Environment.FOVCircle:Remove()
 
 	Load()
 end
