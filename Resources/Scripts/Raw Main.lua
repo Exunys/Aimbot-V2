@@ -201,7 +201,7 @@ function Environment.Functions:Exit()
 		v:Disconnect()
 	end
 
-	if Environment.FOVCircle.Remove and type(Environment.FOVCircle.Remove) == "function" then Environment.FOVCircle:Remove() end
+	if Environment.FOVCircle.Remove then Environment.FOVCircle:Remove() end
 
 	getgenv().Aimbot.Functions = nil
 	getgenv().Aimbot = nil
