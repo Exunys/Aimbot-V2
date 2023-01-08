@@ -1,7 +1,7 @@
 --// Cache
 
 local select = select
-local pcall, getgenv, next, Vector2, mathclamp, mousemoverel = select(1, pcall, getgenv, next, Vector2.new, math.clamp, mousemoverel or (Input and Input.MouseMove))
+local pcall, getgenv, next, Vector2, mathclamp, type, mousemoverel = select(1, pcall, getgenv, next, Vector2.new, math.clamp, type, mousemoverel or (Input and Input.MouseMove))
 
 --// Preventing Multiple Processes
 
@@ -201,7 +201,7 @@ function Environment.Functions:Exit()
 		v:Disconnect()
 	end
 
-	if Environment.FOVCircle.Remove then Environment.FOVCircle:Remove() end
+	if Environment.FOVCircle.Remove and type(Environment.FOVCircle.Remove) == "function" then Environment.FOVCircle:Remove() end
 
 	getgenv().Aimbot.Functions = nil
 	getgenv().Aimbot = nil
