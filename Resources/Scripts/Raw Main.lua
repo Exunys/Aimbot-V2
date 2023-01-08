@@ -242,12 +242,6 @@ function Environment.Functions:ResetSettings()
 		Thickness = 1,
 		Filled = false
 	}
-
-	for _, v in next, ServiceConnections do
-		v:Disconnect()
-	end
-
-	Load()
 end
 
 --// Load
