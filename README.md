@@ -7,7 +7,7 @@
 ![Aimbot V2](https://user-images.githubusercontent.com/76539058/197401886-b988d375-a258-4555-a014-476295b67752.png)
 ## Information
 
-### ℹ️This repository is being discontinued. Use the new script [AirHub](https://github.com/Exunys/AirHub).
+### ℹ️This repository is discontinued. Use the new script [AirHub](https://github.com/Exunys/AirHub).
 
 This script is a universal aim-locking script. Works on all games which use the default character. This specific version has lots of crucial improvements such as:
 - More Functions / Features & Settings
