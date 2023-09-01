@@ -1,4 +1,4 @@
-# ![Aimbot V2](https://user-images.githubusercontent.com/76539058/211103495-6f208311-c282-43d7-982e-d3ead86bef26.png) [![Visitors](https://visitor-badge.glitch.me/badge?page_id=Exunys.Aimbot-V2)](https://github.com/Exunys/Aimbot-V2)
+# ![Aimbot V2](https://user-images.githubusercontent.com/76539058/211103495-6f208311-c282-43d7-982e-d3ead86bef26.png) [![Visitors](https://visitor-badge.laobi.icu/badge?page_id=Exunys.Aimbot-V2)](https://github.com/Exunys/Aimbot-V2)
 ## ![Fast](https://img.shields.io/badge/Fast-blue) ![Secure](https://img.shields.io/badge/Secure-darkgreen) ![Customizable](https://img.shields.io/badge/Customizable-purple) ![Organized](https://img.shields.io/badge/Organized-red) ![Optimized](https://img.shields.io/badge/Optimized-darkblue) ![Data Storing](https://img.shields.io/badge/Data-Storing-green) ![Undetectable](https://img.shields.io/badge/Undetectable-violet) ![Simple](https://img.shields.io/badge/Simple-yellow) ![Support](https://img.shields.io/badge/Multiplatform-Support-darkred) ![Reliable](https://img.shields.io/badge/Reliable-lightblue) ![Trusted](https://img.shields.io/badge/Trusted-lightgreen)
 ##
 | [Update Log](https://github.com/Exunys/Aimbot-V2#update-log-ddmmyyyy0) | [Notices / Dependencies](https://github.com/Exunys/Aimbot-V2#notices) | [Configuration](https://github.com/Exunys/Aimbot-V2#configuration) | [Fixes / Troubleshooting](https://github.com/Exunys/Aimbot-V2#fixes) | [Hotkey](https://github.com/Exunys/Aimbot-V2#hotkey) | [Functions](https://github.com/Exunys/Aimbot-V2#functions) | [Previews](https://github.com/Exunys/Aimbot-V2#previews) | [Script](https://github.com/Exunys/Aimbot-V2#script)
@@ -7,7 +7,7 @@
 ![Aimbot V2](https://user-images.githubusercontent.com/76539058/197401886-b988d375-a258-4555-a014-476295b67752.png)
 ## Information
 
-### ℹ️This repository is discontinued. Use the new script [AirHub](https://github.com/Exunys/AirHub).
+### ℹ️This repository is discontinued. Use the new script [Aimbot V3](https://github.com/Exunys/Aimbot-V3).
 
 This script is a universal aim-locking script. Works on all games which use the default character. This specific version has lots of crucial improvements such as:
 - More Functions / Features & Settings
@@ -213,6 +213,8 @@ The video above shows the [Aimbot V2 GUI](https://github.com/Exunys/Aimbot-V2/bl
 - This source is more optimized and relatively smaller to allow the user to modify the code and freely put it into their own script. But of course, do not forget that this script has a [license](https://github.com/Exunys/Aimbot-V2/blob/main/LICENSE).
 - The raw source can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Raw%20Main.lua).
 ## Aimbot V2 GUI
+### 🔥 It is recommended that you use the new [AirHub V2](https://github.com/Exunys/AirHub-V2) script instead for a premium exploiting experience.
+
 This script can be found [here](https://github.com/Exunys/Aimbot-V2/blob/main/Resources/Scripts/Aimbot%20V2%20GUI.lua). The script is powered by [Pepsi's UI Library](https://v3rmillion.net/showthread.php?tid=1139856) and it uses the [Raw Aimbot V2 Source](https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Raw%20Main.lua). 
 
 This script is the same as the raw source but implemented into a UI Library which can be used as an independent script rather then an embeddable script for other developers. 
